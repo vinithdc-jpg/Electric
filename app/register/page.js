@@ -1,54 +1,98 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Register() {
+  const router = useRouter();
+  const [form, setForm] = useState({
+    name: "",
+    age: "",
+    phone_number: "",
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-    const [form, setForm] = useState({
-        name: "",
-        age: "",
-        phone_number: "",
-        email: "",
-        password: ""
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const response = await fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
     });
 
-    const handleSubmit = async () => {
+    const data = await response.json();
+    setLoading(false);
 
-        await fetch("/api/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(form)
-        });
+    if (!response.ok) {
+      setError(data.message || data.error || "Registration failed.");
+      return;
     }
 
-    return (
-        <div>
-            <input
-                placeholder="Name"
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-            />
-            <input
-                placeholder="Age"
-                onChange={(e) => setForm({ ...form, age: e.target.value })}
-            />
-            <input
-                placeholder="Phone number"
-                onChange={(e) => setForm({ ...form, phone_number: e.target.value })}
-            />
-            <input
-                placeholder="Email"
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-            />
-            <input
-                type="password"
-                placeholder="Password"
-                onChange={(e) => setForm({ ...form, password: e.target.value })}
-            />
-            <button onClick={handleSubmit}>
-                Register
-            </button>
-        </div>
-    )
+    router.push("/dashboard");
+  };
+
+  return (
+    <main className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
+      <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
+        <h1 className="text-3xl font-semibold mb-6 text-slate-900">Create an account</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            placeholder="Full name"
+            className="w-full rounded-xl border border-slate-300 p-3 focus:border-blue-500 focus:outline-none"
+          />
+          <input
+            value={form.age}
+            onChange={(e) => setForm({ ...form, age: e.target.value })}
+            placeholder="Age"
+            className="w-full rounded-xl border border-slate-300 p-3 focus:border-blue-500 focus:outline-none"
+          />
+          <input
+            value={form.phone_number}
+            onChange={(e) => setForm({ ...form, phone_number: e.target.value })}
+            placeholder="Phone number"
+            className="w-full rounded-xl border border-slate-300 p-3 focus:border-blue-500 focus:outline-none"
+          />
+          <input
+            type="email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            placeholder="Email"
+            className="w-full rounded-xl border border-slate-300 p-3 focus:border-blue-500 focus:outline-none"
+          />
+          <input
+            type="password"
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
+            placeholder="Password"
+            className="w-full rounded-xl border border-slate-300 p-3 focus:border-blue-500 focus:outline-none"
+          />
+          {error ? <p className="text-sm text-red-600">{error}</p> : null}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-xl bg-slate-900 px-4 py-3 text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {loading ? "Registering..." : "Register"}
+          </button>
+        </form>
+        <p className="mt-4 text-sm text-slate-600">
+          Already have an account?{' '}
+          <Link href="/login" className="font-semibold text-slate-900 hover:text-blue-600">
+            Login
+          </Link>
+        </p>
+      </div>
+    </main>
+  );
 }

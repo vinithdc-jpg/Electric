@@ -1,11 +1,12 @@
-﻿import { NextResponse, type NextRequest } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { verifyToken } from "./lib/auth";
 
-export function proxy(req: NextRequest) {
+export function middleware(req) {
   const { pathname } = req.nextUrl;
 
   if (pathname.startsWith("/dashboard")) {
     const token = req.cookies.get("token")?.value;
+
     if (!token) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
@@ -13,7 +14,7 @@ export function proxy(req: NextRequest) {
     try {
       verifyToken(token);
       return NextResponse.next();
-    } catch {
+    } catch (error) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
   }

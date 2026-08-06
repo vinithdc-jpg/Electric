@@ -2,9 +2,10 @@
 import { verifyToken } from "@/lib/auth";
 import Link from "next/link";
 
-export default function DashboardPage() {
-  const cookieStore = cookies();
+export default async function DashboardPage() {
+  const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value || null;
+
 
   if (!token) {
     return (

@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import PersonalForm from "./components/PersonalForm";
-import LocationForm from "./components/LocationForm";
-import EnergyProfileForm from "./components/EnergyProfileForm";
-import ReviewForm from "./components/ReviewForm";
-import Stepper from "./components/Stepper";
+import PersonalForm from "@/components/PersonalForm";
+import LocationForm from "@/components/LocationForm";
+import EnergyProfileForm from "@/components/EnergyProfileForm";
+import ReviewForm from "@/components/ReviewForm";
+import Stepper from "@/components/Stepper";
 
 const initialState = {
   full_name: "",

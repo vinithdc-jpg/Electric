@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { createToken } from "@/lib/auth";
 import pool from "@/lib/db";
 
 export async function POST(req) {
@@ -131,16 +132,30 @@ export async function POST(req) {
 
     await client.query("COMMIT");
 
-    return NextResponse.json(
+    const token = createToken({
+      id: userId,
+      email: email,
+    });
+
+    const response = NextResponse.json(
       {
         success: true,
         message: "Registration Successful",
-        userId,
       },
       {
         status: 201,
       }
     );
+
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24 * 7,
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
     await client.query("ROLLBACK");
 

@@ -6,6 +6,7 @@ import LocationForm from "@/components/LocationForm";
 import EnergyProfileForm from "@/components/EnergyProfileForm";
 import ReviewForm from "@/components/ReviewForm";
 import Stepper from "@/components/Stepper";
+import { useRouter } from "next/navigation";
 
 const initialState = {
   full_name: "",
@@ -27,6 +28,7 @@ const initialState = {
 
 export default function RegisterPage() {
   const [step, setStep] = useState(1);
+  const router = useRouter();
 
   const [formData, setFormData] = useState(initialState);
 
@@ -50,22 +52,23 @@ export default function RegisterPage() {
   };
 
   const handleSubmit = async () => {
-    try {
-      const response = await fetch("/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
-      });
 
-      const result = await response.json();
+    const response = await fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    });
 
+    const result = await response.json();
+
+    if (!response.ok) {
       alert(result.message);
-
-    } catch (error) {
-      console.log(error);
+      return;
     }
+
+    router.push("/dashboard");
   };
 
   return (

@@ -1,29 +1,45 @@
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
-      <div className="w-full max-w-2xl rounded-3xl bg-white p-10 shadow-xl">
-        <h1 className="text-4xl font-bold text-slate-900 mb-4">Electricy</h1>
-        <p className="text-slate-600 mb-8">
-          A simple authentication demo with register, login, and dashboard protection.
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+      <Navbar />
+
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold mb-6">
+          ⚡ Philippine Retail Electricity Supplier (RES) Benchmarking Platform
+        </div>
+
+        <h1 className="text-5xl sm:text-6xl font-black text-white tracking-tight max-w-4xl leading-tight mb-6">
+          Empowering Contestable Energy Consumers Across the Philippines
+        </h1>
+
+        <p className="text-lg text-slate-400 max-w-2xl leading-relaxed mb-10">
+          Compare Retail Electricity Suppliers (RES), rate vendor performance, evaluate green power options, and explore transparent customer satisfaction rankings.
         </p>
-        <div className="flex flex-col gap-4 sm:flex-row">
+
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <Link
+            href="/rankings"
+            className="px-8 py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold transition shadow-lg shadow-amber-500/20 text-base"
+          >
+            🏆 View RES Leaderboard
+          </Link>
+          <Link
+            href="/dashboard/survey"
+            className="px-8 py-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold transition border border-slate-800 text-base"
+          >
+            📝 Rate Your Supplier
+          </Link>
           <Link
             href="/login"
-            className="inline-flex justify-center rounded-2xl bg-slate-900 px-5 py-4 text-white transition hover:bg-slate-700"
+            className="px-8 py-4 rounded-2xl bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold transition border border-slate-700 text-base"
           >
-            Login
-          </Link>
-          <Link
-            href="/register"
-            className="inline-flex justify-center rounded-2xl border border-slate-200 px-5 py-4 text-slate-900 transition hover:bg-slate-100"
-          >
-            Register
+            🔑 Member Login
           </Link>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
-

@@ -25,6 +25,8 @@ export async function POST(req) {
 
       avg_monthly_consumption,
       avg_monthly_bill,
+
+      dpa_consent = true,
     } = data;
 
     // Check if email already exists
@@ -49,7 +51,7 @@ export async function POST(req) {
 
     await client.query("BEGIN");
 
-    // Insert User
+    // Insert User with role USER and status PENDING
     const userResult = await client.query(
       `
       INSERT INTO users
@@ -58,21 +60,28 @@ export async function POST(req) {
         age,
         phone_number,
         email,
-        password
+        password,
+        role,
+        status,
+        dpa_consent
       )
-      VALUES($1,$2,$3,$4,$5)
-      RETURNING id
+      VALUES($1,$2,$3,$4,$5,$6,$7,$8)
+      RETURNING id, role, status
       `,
       [
         full_name,
-        age,
-        phone_number,
+        age || null,
+        phone_number || null,
         email,
         hashedPassword,
+        "USER",
+        "PENDING",
+        dpa_consent,
       ]
     );
 
-    const userId = userResult.rows[0].id;
+    const user = userResult.rows[0];
+    const userId = user.id;
 
     // Insert Operating Location
     await client.query(
@@ -88,9 +97,9 @@ export async function POST(req) {
       `,
       [
         userId,
-        address,
-        city,
-        province,
+        address || null,
+        city || null,
+        province || null,
       ]
     );
 
@@ -107,26 +116,8 @@ export async function POST(req) {
       `,
       [
         userId,
-        c_electric_supplier,
-        d_supplier_preference,
-      ]
-    );
-
-    // Insert Review
-    await client.query(
-      `
-      INSERT INTO reviews
-      (
-        user_id,
-        avg_monthly_consumption,
-        avg_monthly_bill
-      )
-      VALUES($1,$2,$3)
-      `,
-      [
-        userId,
-        avg_monthly_consumption,
-        avg_monthly_bill,
+        c_electric_supplier || null,
+        d_supplier_preference || null,
       ]
     );
 
@@ -135,12 +126,20 @@ export async function POST(req) {
     const token = createToken({
       id: userId,
       email: email,
+      role: user.role,
+      status: user.status,
     });
 
     const response = NextResponse.json(
       {
         success: true,
         message: "Registration Successful",
+        user: {
+          id: userId,
+          email: email,
+          role: user.role,
+          status: user.status,
+        },
       },
       {
         status: 201,
@@ -158,7 +157,6 @@ export async function POST(req) {
     return response;
   } catch (error) {
     await client.query("ROLLBACK");
-
     console.error(error);
 
     return NextResponse.json(

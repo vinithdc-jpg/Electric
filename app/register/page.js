@@ -1,98 +1,135 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import PersonalForm from "./components/PersonalForm";
+import LocationForm from "./components/LocationForm";
+import EnergyProfileForm from "./components/EnergyProfileForm";
+import ReviewForm from "./components/ReviewForm";
+import Stepper from "./components/Stepper";
 
-export default function Register() {
-  const router = useRouter();
-  const [form, setForm] = useState({
-    name: "",
-    age: "",
-    phone_number: "",
-    email: "",
-    password: "",
-  });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+const initialState = {
+  full_name: "",
+  age: "",
+  phone_number: "",
+  email: "",
+  password: "",
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-    setError("");
+  address: "",
+  city: "",
+  province: "",
 
-    const response = await fetch("/api/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
+  c_electric_supplier: "",
+  d_supplier_preference: "",
 
-    const data = await response.json();
-    setLoading(false);
+  avg_monthly_consumption: "",
+  avg_monthly_bill: ""
+};
 
-    if (!response.ok) {
-      setError(data.message || data.error || "Registration failed.");
-      return;
+export default function RegisterPage() {
+  const [step, setStep] = useState(1);
+
+  const [formData, setFormData] = useState(initialState);
+
+  const nextStep = () => {
+    if (step < 4) {
+      setStep(step + 1);
     }
+  };
 
-    router.push("/dashboard");
+  const previousStep = () => {
+    if (step > 1) {
+      setStep(step - 1);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+
+      alert(result.message);
+
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
-      <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
-        <h1 className="text-3xl font-semibold mb-6 text-slate-900">Create an account</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-            placeholder="Full name"
-            className="w-full rounded-xl border border-slate-300 p-3 focus:border-blue-500 focus:outline-none"
-          />
-          <input
-            value={form.age}
-            onChange={(e) => setForm({ ...form, age: e.target.value })}
-            placeholder="Age"
-            className="w-full rounded-xl border border-slate-300 p-3 focus:border-blue-500 focus:outline-none"
-          />
-          <input
-            value={form.phone_number}
-            onChange={(e) => setForm({ ...form, phone_number: e.target.value })}
-            placeholder="Phone number"
-            className="w-full rounded-xl border border-slate-300 p-3 focus:border-blue-500 focus:outline-none"
-          />
-          <input
-            type="email"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            placeholder="Email"
-            className="w-full rounded-xl border border-slate-300 p-3 focus:border-blue-500 focus:outline-none"
-          />
-          <input
-            type="password"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            placeholder="Password"
-            className="w-full rounded-xl border border-slate-300 p-3 focus:border-blue-500 focus:outline-none"
-          />
-          {error ? <p className="text-sm text-red-600">{error}</p> : null}
+    <main className="max-w-4xl mx-auto py-10">
+
+      <Stepper currentStep={step} />
+
+      {step === 1 && (
+        <PersonalForm
+          formData={formData}
+          handleChange={handleChange}
+        />
+      )}
+
+      {step === 2 && (
+        <LocationForm
+          formData={formData}
+          handleChange={handleChange}
+        />
+      )}
+
+      {step === 3 && (
+        <EnergyProfileForm
+          formData={formData}
+          handleChange={handleChange}
+        />
+      )}
+
+      {step === 4 && (
+        <ReviewForm
+          formData={formData}
+          handleChange={handleChange}
+        />
+      )}
+
+      <div className="flex justify-between mt-10">
+
+        {step > 1 && (
           <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-xl bg-slate-900 px-4 py-3 text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-70"
+            onClick={previousStep}
+            className="bg-gray-500 text-white px-6 py-3 rounded"
           >
-            {loading ? "Registering..." : "Register"}
+            Back
           </button>
-        </form>
-        <p className="mt-4 text-sm text-slate-600">
-          Already have an account?{' '}
-          <Link href="/login" className="font-semibold text-slate-900 hover:text-blue-600">
-            Login
-          </Link>
-        </p>
+        )}
+
+        {step < 4 ? (
+          <button
+            onClick={nextStep}
+            className="bg-green-700 text-white px-6 py-3 rounded ml-auto"
+          >
+            Next
+          </button>
+        ) : (
+          <button
+            onClick={handleSubmit}
+            className="bg-blue-700 text-white px-6 py-3 rounded ml-auto"
+          >
+            Complete Registration
+          </button>
+        )}
+
       </div>
+
     </main>
   );
 }

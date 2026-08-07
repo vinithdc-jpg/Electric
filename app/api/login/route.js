@@ -4,63 +4,70 @@ import pool from "@/lib/db";
 import { createToken } from "@/lib/auth";
 
 export async function POST(req) {
+    try {
+        const { email, password } = await req.json();
 
-    const { email, password } = await req.json();
-
-    const user = await pool.query(
-        "SELECT * FROM users WHERE email=$1",
-        [email]
-    );
-
-    if (user.rows.length === 0) {
-
-        return NextResponse.json(
-            {
-                message: "Invalid Credentials"
-            },
-            {
-                status: 400
-            }
+        const result = await pool.query(
+            "SELECT * FROM users WHERE email = $1",
+            [email]
         );
-    }
 
-    const currentUser = user.rows[0];
+        if (result.rows.length === 0) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: "Invalid email or password",
+                },
+                {
+                    status: 401,
+                }
+            );
+        }
 
-    const match = await bcrypt.compare(
-        password,
-        currentUser.password
-    );
+        const user = result.rows[0];
 
-    if (!match) {
-
-        return NextResponse.json(
-            {
-                message: "Wrong Password"
-            },
-            {
-                status: 400
-            }
+        const match = await bcrypt.compare(
+            password,
+            user.password
         );
-    }
 
-    const token = createToken(currentUser);
+        if (!match) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: "Invalid email or password",
+                },
+                {
+                    status: 401,
+                }
+            );
+        }
 
-    const response = NextResponse.json({
+        const token = createToken(user);
 
-        message: "Login Success"
+        const response = NextResponse.json({
+            success: true,
+            message: "Login Successful",
+        });
 
-    });
-
-    response.cookies.set(
-        "token",
-        token,
-        {
+        response.cookies.set("token", token, {
             httpOnly: true,
             secure: false,
             sameSite: "strict",
             maxAge: 60 * 60 * 24 * 7,
-            path: "/"
-        }
-    );
-    return response;
+            path: "/",
+        });
+
+        return response;
+    } catch (error) {
+        return NextResponse.json(
+            {
+                success: false,
+                message: error.message,
+            },
+            {
+                status: 500,
+            }
+        );
+    }
 }

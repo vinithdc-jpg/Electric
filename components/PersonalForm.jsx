@@ -2,15 +2,15 @@
 
 export default function PersonalForm({ formData, handleChange }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-8">
+    <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
 
-      <h2 className="text-2xl font-bold mb-8">
+      <h2 className="text-2xl md:text-3xl font-bold mb-8">
         Personal Information
       </h2>
 
       {/* Full Name */}
       <div className="mb-6">
-        <label className="block text-sm font-semibold mb-2">
+        <label className="block text-sm font-semibold mb-2 text-gray-700">
           Full Name
         </label>
 
@@ -20,7 +20,7 @@ export default function PersonalForm({ formData, handleChange }) {
           value={formData.full_name}
           onChange={handleChange}
           placeholder="Enter your full name"
-          className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-600"
+          className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all"
         />
       </div>
 
@@ -28,7 +28,7 @@ export default function PersonalForm({ formData, handleChange }) {
       <div className="grid md:grid-cols-2 gap-6 mb-6">
 
         <div>
-          <label className="block text-sm font-semibold mb-2">
+          <label className="block text-sm font-semibold mb-2 text-gray-700">
             Age
           </label>
 
@@ -38,12 +38,12 @@ export default function PersonalForm({ formData, handleChange }) {
             value={formData.age}
             onChange={handleChange}
             placeholder="Age"
-            className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-600"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold mb-2">
+          <label className="block text-sm font-semibold mb-2 text-gray-700">
             Mobile Number
           </label>
 
@@ -53,7 +53,7 @@ export default function PersonalForm({ formData, handleChange }) {
             value={formData.phone_number}
             onChange={handleChange}
             placeholder="+63 900 000 0000"
-            className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-600"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all"
           />
         </div>
 
@@ -61,7 +61,7 @@ export default function PersonalForm({ formData, handleChange }) {
 
       {/* Email */}
       <div className="mb-6">
-        <label className="block text-sm font-semibold mb-2">
+        <label className="block text-sm font-semibold mb-2 text-gray-700">
           Email Address
         </label>
 
@@ -71,7 +71,7 @@ export default function PersonalForm({ formData, handleChange }) {
           value={formData.email}
           onChange={handleChange}
           placeholder="example@gmail.com"
-          className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-600"
+          className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all"
         />
       </div>
 
@@ -79,7 +79,7 @@ export default function PersonalForm({ formData, handleChange }) {
       <div className="grid md:grid-cols-2 gap-6">
 
         <div>
-          <label className="block text-sm font-semibold mb-2">
+          <label className="block text-sm font-semibold mb-2 text-gray-700">
             Password
           </label>
 
@@ -89,12 +89,12 @@ export default function PersonalForm({ formData, handleChange }) {
             value={formData.password}
             onChange={handleChange}
             placeholder="********"
-            className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-600"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold mb-2">
+          <label className="block text-sm font-semibold mb-2 text-gray-700">
             Confirm Password
           </label>
 
@@ -104,7 +104,7 @@ export default function PersonalForm({ formData, handleChange }) {
             value={formData.confirm_password || ""}
             onChange={handleChange}
             placeholder="********"
-            className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-600"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all"
           />
         </div>
 

@@ -12,9 +12,9 @@ const provinces = [
 
 export default function LocationForm({ formData, handleChange }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-8">
+    <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
 
-      <h2 className="text-2xl font-bold mb-8">
+      <h2 className="text-2xl md:text-3xl font-bold mb-8">
         Operating Location
       </h2>
 
@@ -22,7 +22,7 @@ export default function LocationForm({ formData, handleChange }) {
 
       <div className="mb-6">
 
-        <label className="block text-sm font-semibold mb-2">
+        <label className="block text-sm font-semibold mb-2 text-gray-700">
           Complete Address
         </label>
 
@@ -32,7 +32,7 @@ export default function LocationForm({ formData, handleChange }) {
           value={formData.address}
           onChange={handleChange}
           placeholder="Building, Street Name"
-          className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-600 outline-none"
+          className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-600 focus:border-transparent outline-none transition-all"
         />
 
       </div>
@@ -43,7 +43,7 @@ export default function LocationForm({ formData, handleChange }) {
 
         <div>
 
-          <label className="block text-sm font-semibold mb-2">
+          <label className="block text-sm font-semibold mb-2 text-gray-700">
             City / Municipality
           </label>
 
@@ -53,14 +53,14 @@ export default function LocationForm({ formData, handleChange }) {
             value={formData.city}
             onChange={handleChange}
             placeholder="Enter City"
-            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-600 outline-none"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-600 focus:border-transparent outline-none transition-all"
           />
 
         </div>
 
         <div>
 
-          <label className="block text-sm font-semibold mb-2">
+          <label className="block text-sm font-semibold mb-2 text-gray-700">
             Province
           </label>
 
@@ -68,7 +68,7 @@ export default function LocationForm({ formData, handleChange }) {
             name="province"
             value={formData.province}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-600 outline-none"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-600 focus:border-transparent outline-none transition-all"
           >
             <option value="">
               Select Province

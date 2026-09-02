@@ -22,9 +22,9 @@ export default function EnergyProfileForm({
   handleChange,
 }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-8">
+    <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
 
-      <h2 className="text-2xl font-bold mb-8">
+      <h2 className="text-2xl md:text-3xl font-bold mb-8">
         Energy Profile
       </h2>
 
@@ -32,7 +32,7 @@ export default function EnergyProfileForm({
 
       <div className="mb-6">
 
-        <label className="block mb-2 font-semibold">
+        <label className="block mb-2 font-semibold text-gray-700">
           Current Electricity Supplier
         </label>
 
@@ -40,7 +40,7 @@ export default function EnergyProfileForm({
           name="c_electric_supplier"
           value={formData.c_electric_supplier}
           onChange={handleChange}
-          className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-600 outline-none"
+          className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-600 focus:border-transparent outline-none transition-all"
         >
           <option value="">
             Select Supplier
@@ -63,7 +63,7 @@ export default function EnergyProfileForm({
 
       <div>
 
-        <label className="block mb-2 font-semibold">
+        <label className="block mb-2 font-semibold text-gray-700">
           Supplier Preference
         </label>
 
@@ -71,7 +71,7 @@ export default function EnergyProfileForm({
           name="d_supplier_preference"
           value={formData.d_supplier_preference}
           onChange={handleChange}
-          className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-600 outline-none"
+          className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-600 focus:border-transparent outline-none transition-all"
         >
           <option value="">
             Select Preference

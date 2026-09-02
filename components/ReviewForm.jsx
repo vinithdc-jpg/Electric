@@ -5,9 +5,9 @@ export default function ReviewForm({
   handleChange,
 }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-8">
+    <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
 
-      <h2 className="text-2xl font-bold mb-8">
+      <h2 className="text-2xl md:text-3xl font-bold mb-8">
         Review & Monthly Usage
       </h2>
 
@@ -16,7 +16,7 @@ export default function ReviewForm({
       <div className="grid md:grid-cols-2 gap-6 mb-10">
 
         <div>
-          <label className="block mb-2 font-semibold">
+          <label className="block mb-2 font-semibold text-gray-700">
             Average Monthly Consumption (kWh)
           </label>
 
@@ -26,12 +26,12 @@ export default function ReviewForm({
             value={formData.avg_monthly_consumption}
             onChange={handleChange}
             placeholder="e.g. 350"
-            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-600 outline-none"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-600 focus:border-transparent outline-none transition-all"
           />
         </div>
 
         <div>
-          <label className="block mb-2 font-semibold">
+          <label className="block mb-2 font-semibold text-gray-700">
             Average Monthly Bill ($)
           </label>
 
@@ -41,7 +41,7 @@ export default function ReviewForm({
             value={formData.avg_monthly_bill}
             onChange={handleChange}
             placeholder="e.g. 120"
-            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-600 outline-none"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-green-600 focus:border-transparent outline-none transition-all"
           />
         </div>
 

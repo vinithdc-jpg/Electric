@@ -72,7 +72,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="max-w-4xl mx-auto py-10">
+    <main className="max-w-4xl mx-auto py-8 px-4 md:py-10 md:px-0">
 
       <Stepper currentStep={step} />
 
@@ -104,12 +104,12 @@ export default function RegisterPage() {
         />
       )}
 
-      <div className="flex justify-between mt-10">
+      <div className="flex flex-col sm:flex-row gap-4 sm:justify-between mt-8 md:mt-10">
 
         {step > 1 && (
           <button
             onClick={previousStep}
-            className="bg-gray-500 text-white px-6 py-3 rounded"
+            className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 order-2 sm:order-1"
           >
             Back
           </button>
@@ -118,14 +118,14 @@ export default function RegisterPage() {
         {step < 4 ? (
           <button
             onClick={nextStep}
-            className="bg-green-700 text-white px-6 py-3 rounded ml-auto"
+            className="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 sm:ml-auto order-1 sm:order-2"
           >
             Next
           </button>
         ) : (
           <button
             onClick={handleSubmit}
-            className="bg-blue-700 text-white px-6 py-3 rounded ml-auto"
+            className="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 sm:ml-auto order-1 sm:order-2"
           >
             Complete Registration
           </button>

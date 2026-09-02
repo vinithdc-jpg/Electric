@@ -27,9 +27,20 @@ export default function Navbar() {
   }, [pathname]);
 
   const handleLogout = async () => {
-    await fetch("/api/logout", { method: "POST" });
-    setUser(null);
-    router.push("/login");
+    try {
+      const response = await fetch("/api/logout", {
+        method: "POST",
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        router.push("/");
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   return (
@@ -37,8 +48,13 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-3">
-            <Link href="/rankings" className="flex items-center gap-2 font-black text-xl text-amber-400 tracking-tight">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500 text-slate-950 font-black">⚡</span>
+            <Link
+              href="/rankings"
+              className="flex items-center gap-2 font-black text-xl text-amber-400 tracking-tight"
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500 text-slate-950 font-black">
+                ⚡
+              </span>
               <span>PowerBench PH</span>
             </Link>
             <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
@@ -50,7 +66,9 @@ export default function Navbar() {
             <Link
               href="/rankings"
               className={`px-3 py-2 rounded-xl text-sm font-medium transition ${
-                pathname === "/rankings" ? "bg-amber-500/20 text-amber-300" : "text-slate-300 hover:text-white hover:bg-slate-800"
+                pathname === "/rankings"
+                  ? "bg-amber-500/20 text-amber-300"
+                  : "text-slate-300 hover:text-white hover:bg-slate-800"
               }`}
             >
               🏆 RES Rankings
@@ -59,7 +77,9 @@ export default function Navbar() {
             <Link
               href="/dashboard/survey"
               className={`px-3 py-2 rounded-xl text-sm font-medium transition ${
-                pathname === "/dashboard/survey" ? "bg-amber-500/20 text-amber-300" : "text-slate-300 hover:text-white hover:bg-slate-800"
+                pathname === "/dashboard/survey"
+                  ? "bg-amber-500/20 text-amber-300"
+                  : "text-slate-300 hover:text-white hover:bg-slate-800"
               }`}
             >
               📝 Rate Supplier
@@ -68,7 +88,9 @@ export default function Navbar() {
             <Link
               href="/dashboard"
               className={`px-3 py-2 rounded-xl text-sm font-medium transition ${
-                pathname === "/dashboard" ? "bg-amber-500/20 text-amber-300" : "text-slate-300 hover:text-white hover:bg-slate-800"
+                pathname === "/dashboard"
+                  ? "bg-amber-500/20 text-amber-300"
+                  : "text-slate-300 hover:text-white hover:bg-slate-800"
               }`}
             >
               👤 Dashboard

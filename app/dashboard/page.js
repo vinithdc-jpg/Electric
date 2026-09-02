@@ -46,7 +46,7 @@ export default async function DashboardPage() {
                     {payload.role || "USER"}
                   </span>
                 </div>
-                <p className="mt-1 text-slate-400 text-sm">Welcome back, {payload.email}</p>
+                <p className="mt-1 text-slate-400 text-sm">Welcome back: <span className="italic">{payload.full_name}</span></p>
               </div>
 
               <div className="flex items-center gap-3">

@@ -32,7 +32,7 @@ export async function POST(req) {
     // Check if email already exists
     const existingUser = await client.query(
       "SELECT id FROM users WHERE email = $1",
-      [email]
+      [email],
     );
 
     if (existingUser.rows.length > 0) {
@@ -43,7 +43,7 @@ export async function POST(req) {
         },
         {
           status: 400,
-        }
+        },
       );
     }
 
@@ -77,7 +77,7 @@ export async function POST(req) {
         "USER",
         "PENDING",
         dpa_consent,
-      ]
+      ],
     );
 
     const user = userResult.rows[0];
@@ -95,12 +95,7 @@ export async function POST(req) {
       )
       VALUES($1,$2,$3,$4)
       `,
-      [
-        userId,
-        address || null,
-        city || null,
-        province || null,
-      ]
+      [userId, address || null, city || null, province || null],
     );
 
     // Insert Energy Profile
@@ -114,11 +109,7 @@ export async function POST(req) {
       )
       VALUES($1,$2,$3)
       `,
-      [
-        userId,
-        c_electric_supplier || null,
-        d_supplier_preference || null,
-      ]
+      [userId, c_electric_supplier || null, d_supplier_preference || null],
     );
 
     await client.query("COMMIT");
@@ -126,6 +117,7 @@ export async function POST(req) {
     const token = createToken({
       id: userId,
       email: email,
+      full_name: full_name,
       role: user.role,
       status: user.status,
     });
@@ -137,13 +129,14 @@ export async function POST(req) {
         user: {
           id: userId,
           email: email,
+          full_name, full_name,
           role: user.role,
           status: user.status,
         },
       },
       {
         status: 201,
-      }
+      },
     );
 
     response.cookies.set("token", token, {
@@ -166,7 +159,7 @@ export async function POST(req) {
       },
       {
         status: 500,
-      }
+      },
     );
   } finally {
     client.release();
